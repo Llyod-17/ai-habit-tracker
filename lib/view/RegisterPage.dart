@@ -22,7 +22,7 @@ class _RegisterPagesState extends State<RegisterPages> {
     return Scaffold(
       body: Container(
           decoration: BoxDecoration(
-            image: DecorationImage(image: AssetImage("assets/images/bg.jpg"),
+            image: DecorationImage(image: AssetImage("assets/images/bg1.jpeg"),
             fit: BoxFit.cover
             )
           ),
@@ -31,7 +31,7 @@ class _RegisterPagesState extends State<RegisterPages> {
             children: [
               Glass(
                 theWidth: MediaQuery.of(context).size.width * 0.75,
-                theHeight: MediaQuery.of(context).size.height * 0.9,
+                theHeight: MediaQuery.of(context).size.height * 0.80,
                 theChild: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Column(
@@ -77,7 +77,7 @@ class _RegisterPagesState extends State<RegisterPages> {
                               color: Colors.white
                             )
                             ),
-                          ),onPressed: (){}, child: Text("Sign In", style: TextStyle(color: Colors.white),)),
+                          ),onPressed: (){}, child: Text("Sign Up", style: TextStyle(color: Colors.white),)),
                         
                         
                         ),
@@ -88,7 +88,7 @@ class _RegisterPagesState extends State<RegisterPages> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text("Dont Have an Account?", style: TextStyle(color: Colors.white, ),),
-                          TextButton(onPressed: () => Get.to(() => const Loginpages()), child: Text("Sign Up", style: TextStyle(color: Colors.white, ),)),
+                          TextButton(onPressed: () => Get.to(() => const Loginpages()), child: Text("Sign In ", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold ),)),
                         ],
                       )
                     ],

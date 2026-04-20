@@ -27,8 +27,8 @@ class Glass extends StatelessWidget {
               borderRadius: BorderRadius.circular(30), 
               child: BackdropFilter(
                 filter: ImageFilter.blur(
-                  sigmaX: 1.0,
-                  sigmaY: 1.0,
+                  sigmaX: 2.5,
+                  sigmaY: 2.5,
                 ),
                 child: Container(color: Colors.transparent),
               ),
@@ -37,7 +37,8 @@ class Glass extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
                 border: Border.all(
-                  color: Colors.white.withOpacity(0.13),
+                  color: Colors.white.withOpacity(0.3),
+                  width: 3
                 ),
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
