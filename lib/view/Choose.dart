@@ -11,20 +11,11 @@ class Choose extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF1565C0),
-              Color(0xFF3B8DE5),
-              Color(0xFF29B6F6),
-            ],
-            stops: [0.0, 0.55, 1.0],
+          decoration: BoxDecoration(
+            image: DecorationImage(image: AssetImage("assets/images/bg1.jpg"),
+            fit: BoxFit.cover
+            )
           ),
-        ),
         child: Stack(
           children: [
             Positioned(
@@ -77,40 +68,51 @@ class Choose extends StatelessWidget {
                     ),
                     const SizedBox(height: 48),
                     SizedBox(
-                      width: 200,
+                      width: 350,
                       height: 48,
-                      child: ElevatedButton(
-                        onPressed: () async {Get.to(()=>Loginpages());},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF29B6F6),
-                          foregroundColor: Colors.white,
-                          elevation: 0,
-                          shape: const StadiumBorder(),
-                          textStyle: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
+                      child: Expanded(
+                        child: ElevatedButton(
+                          
+                          onPressed: () async {Get.to(()=>Loginpages());},
+                          style: ElevatedButton.styleFrom(
+                            
+                            backgroundColor: Colors.transparent,
+                            foregroundColor: Colors.white,
+                            shadowColor: Colors.transparent,
+                            elevation: 0,
+                            side: BorderSide(
+                              color: Colors.white,
+                              width: 1.5
+                            ),
+                            shape: const StadiumBorder(),
+                            textStyle: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
+                          child: const Text('SIGN IN'),
                         ),
-                        child: const Text('Login'),
                       ),
                     ),
                     const SizedBox(height: 16),
                     SizedBox(
-                      width: 200,
+                      width: 350,
                       height: 48,
-                      child: ElevatedButton(
-                        onPressed: () async{Get.to(()=>RegisterPages());},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF0D2B6B),
-                          foregroundColor: Colors.white,
-                          elevation: 0,
-                          shape: const StadiumBorder(),
-                          textStyle: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
+                      child: Expanded(
+                        child: ElevatedButton(
+                          onPressed: () async{Get.to(()=>RegisterPages());},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            foregroundColor: Colors.white,
+                            elevation: 0,
+                            shape: const StadiumBorder(),
+                            textStyle: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
+                          child: const Text('SIGN UP', style: TextStyle(color: Colors.black),),
                         ),
-                        child: const Text('Sign up'),
                       ),
                     ),
                   ],

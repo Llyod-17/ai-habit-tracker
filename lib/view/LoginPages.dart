@@ -20,7 +20,7 @@ class _LoginpagesState extends State<Loginpages> {
     return Scaffold(
       body: Container(
           decoration: BoxDecoration(
-            image: DecorationImage(image: AssetImage("assets/images/bg.jpg"),
+            image: DecorationImage(image: AssetImage("assets/images/bg1.jpg"),
             fit: BoxFit.cover
             )
           ),
