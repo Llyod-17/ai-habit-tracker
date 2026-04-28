@@ -31,7 +31,7 @@ class _RegisterPagesState extends State<RegisterPages> {
             children: [
               Glass(
                 theWidth: MediaQuery.of(context).size.width * 0.75,
-                theHeight: MediaQuery.of(context).size.height * 0.80,
+                theHeight: MediaQuery.of(context).size.height * 0.85,
                 theChild: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Column(

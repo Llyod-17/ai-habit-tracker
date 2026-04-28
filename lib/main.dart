@@ -1,3 +1,4 @@
+import 'package:ai_habit_tracker/view/Choose.dart';
 import 'package:ai_habit_tracker/view/HomePages.dart';
 import 'package:ai_habit_tracker/view/LoginPages.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Habit Tracker',
 
-      home: isLoggedIn ? const Homepages() : const Loginpages(),
+      home: isLoggedIn ? const Homepages() : const Choose(),
     );
   }
 }
