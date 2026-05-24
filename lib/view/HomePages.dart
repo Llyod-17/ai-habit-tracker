@@ -1,4 +1,5 @@
 import 'package:ai_habit_tracker/controller/HabitController.dart';
+import 'package:ai_habit_tracker/view/addHabit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -179,7 +180,7 @@ class _HomePagesState extends State<HomePages> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () {}, // navigasi ke list semua habit
+                          onTap: () {}, 
                           child: const Text(
                             'See all',
                             style: TextStyle(fontSize: 13, color: Color(0xFF888780), fontWeight: FontWeight.w600),
@@ -231,7 +232,6 @@ class _HomePagesState extends State<HomePages> {
                               ),
                               child: Row(
                                 children: [
-                                  // Checkbox — tap untuk check-in
                                   GestureDetector(
                                     onTap: () => habitController.checkHabit(id),
                                     child: Container(
@@ -311,7 +311,7 @@ class _HomePagesState extends State<HomePages> {
             Positioned(
               bottom: 24, right: 0,
               child: FloatingActionButton(
-                onPressed: () {}, 
+                onPressed: () {Get.to(()=> addHabit());}, 
                 backgroundColor: const Color(0xFF2C2C2A),
                 shape: const CircleBorder(),
                 child: const Icon(Icons.add, color: Colors.white, size: 28),
