@@ -63,7 +63,6 @@ class _RegisterPagesState extends State<RegisterPages> {
               ),
             ),
 
-            // Konten utama
             SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 28),
               child: Column(
@@ -127,7 +126,6 @@ class _RegisterPagesState extends State<RegisterPages> {
 
                   const SizedBox(height: 20),
 
-                  // Label PASSWORD
                   const Text(
                     'PASSWORD',
                     style: TextStyle(
@@ -144,7 +142,6 @@ class _RegisterPagesState extends State<RegisterPages> {
                     obscureText: true,
                   ),
 
-                  // Lupa password
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
@@ -166,7 +163,6 @@ class _RegisterPagesState extends State<RegisterPages> {
 
                   const SizedBox(height: 8),
 
-                  // Tombol Masuk
                   SizedBox(
                     width: double.infinity,
                     height: 54,

@@ -32,7 +32,6 @@ class _LoginPagesState extends State<LoginPages> {
       body: SafeArea(
         child: Stack(
           children: [
-            // Lingkaran dekorasi kanan atas
             Positioned(
               top: -30,
               right: -30,
@@ -62,7 +61,6 @@ class _LoginPagesState extends State<LoginPages> {
               ),
             ),
 
-            // Konten utama
             SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 28),
               child: Column(
@@ -109,7 +107,6 @@ class _LoginPagesState extends State<LoginPages> {
 
                   const SizedBox(height: 20),
 
-                  // Label PASSWORD
                   const Text(
                     'PASSWORD',
                     style: TextStyle(
@@ -126,7 +123,6 @@ class _LoginPagesState extends State<LoginPages> {
                     obscureText: true,
                   ),
 
-                  // Lupa password
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
@@ -148,7 +144,6 @@ class _LoginPagesState extends State<LoginPages> {
 
                   const SizedBox(height: 8),
 
-                  // Tombol Masuk
                   SizedBox(
                     width: double.infinity,
                     height: 54,
@@ -172,7 +167,6 @@ class _LoginPagesState extends State<LoginPages> {
 
                   const SizedBox(height: 28),
 
-                  // Divider
                   Row(
                     children: [
                       const Expanded(
@@ -194,7 +188,6 @@ class _LoginPagesState extends State<LoginPages> {
 
                   const SizedBox(height: 20),
 
-                  // Tombol sosial
                   Row(
                     children: [
                       Expanded(
@@ -260,7 +253,6 @@ class _LoginPagesState extends State<LoginPages> {
 
                   const SizedBox(height: 28),
 
-                  // Daftar sekarang
                   Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
