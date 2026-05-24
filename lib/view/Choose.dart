@@ -11,11 +11,12 @@ class Choose extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(image: AssetImage("assets/images/bg1.jpg"),
-            fit: BoxFit.cover
-            )
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/bg1.jpg"),
+            fit: BoxFit.cover,
           ),
+        ),
         child: Stack(
           children: [
             Positioned(
@@ -46,20 +47,20 @@ class Choose extends StatelessWidget {
                           width: 2,
                         ),
                       ),
-                      child: const Center(
-                        child: Text(
-                          'D',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold,
+                      child: Center(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage("assets/images/LOGO.png"),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
                     ),
                     const SizedBox(height: 24),
                     const Text(
-                      'Welcome to Tracker',
+                      'Welcome Back',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 22,
@@ -72,18 +73,15 @@ class Choose extends StatelessWidget {
                       height: 48,
                       child: Expanded(
                         child: ElevatedButton(
-                          
-                          onPressed: () async {Get.to(()=>Loginpages());},
+                          onPressed: () async {
+                            Get.to(() => LoginPages());
+                          },
                           style: ElevatedButton.styleFrom(
-                            
                             backgroundColor: Colors.transparent,
                             foregroundColor: Colors.white,
                             shadowColor: Colors.transparent,
                             elevation: 0,
-                            side: BorderSide(
-                              color: Colors.white,
-                              width: 1.5
-                            ),
+                            side: BorderSide(color: Colors.white, width: 1.5),
                             shape: const StadiumBorder(),
                             textStyle: const TextStyle(
                               fontSize: 16,
@@ -100,7 +98,9 @@ class Choose extends StatelessWidget {
                       height: 48,
                       child: Expanded(
                         child: ElevatedButton(
-                          onPressed: () async{Get.to(()=>RegisterPages());},
+                          onPressed: () async {
+                            Get.to(() => RegisterPages());
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,
                             foregroundColor: Colors.white,
@@ -111,7 +111,10 @@ class Choose extends StatelessWidget {
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          child: const Text('SIGN UP', style: TextStyle(color: Colors.black),),
+                          child: const Text(
+                            'SIGN UP',
+                            style: TextStyle(color: Colors.black),
+                          ),
                         ),
                       ),
                     ),

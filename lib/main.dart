@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Habit Tracker',
 
-      home: isLoggedIn ? const Homepages() : const Choose(),
+      home: isLoggedIn ? const HomePages() : const Choose(),
     );
   }
 }

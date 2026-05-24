@@ -15,21 +15,14 @@ class InputWidget extends StatelessWidget {
      width: double.infinity,
      
      decoration: BoxDecoration(
-
-       color: Colors.transparent,
-       borderRadius: BorderRadius.circular(20)
+       color: const Color.fromARGB(255, 75, 74, 74),
+       borderRadius: BorderRadius.circular(10)
      ),
      child:  TextField(
       obscureText: obscureText,
         controller: controller,
        decoration: InputDecoration(
-         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
-         ),
-         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
-          borderSide: BorderSide(color: Colors.white)
-         ),
+         border: InputBorder.none,
          hintText: hintText , hintStyle: TextStyle(color: Colors.white),
          contentPadding: EdgeInsets.symmetric(horizontal: 20)
        ),
