@@ -1,1 +1,1 @@
-const url = 'http://localhost:3000';
+const url = 'https://www.reihan.biz.id/api/v1/';
