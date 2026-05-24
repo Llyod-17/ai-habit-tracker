@@ -15,7 +15,6 @@ class _HomePagesState extends State<HomePages> {
   final DateTime today = DateTime.now();
   int selectedDay = DateTime.now().day;
 
-  // mapping category → warna icon
   Color _categoryColor(String? category) {
     switch (category) {
       case 'high': return const Color(0xFFFBEAF0);
@@ -48,7 +47,6 @@ class _HomePagesState extends State<HomePages> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // ── Header ──
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -80,7 +78,6 @@ class _HomePagesState extends State<HomePages> {
 
                     const SizedBox(height: 20),
 
-                    // ── Week Strip ──
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: List.generate(7, (i) {
@@ -123,7 +120,6 @@ class _HomePagesState extends State<HomePages> {
 
                     const SizedBox(height: 18),
 
-                    // ── Reminder Card ──
                     Container(
                       padding: const EdgeInsets.all(18),
                       decoration: BoxDecoration(
@@ -171,7 +167,6 @@ class _HomePagesState extends State<HomePages> {
 
                     const SizedBox(height: 22),
 
-                    // ── Section Header ──
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -195,7 +190,6 @@ class _HomePagesState extends State<HomePages> {
 
                     const SizedBox(height: 14),
 
-                    // ── Habit List ──
                     Obx(() {
                       if (habitController.isLoading.value) {
                         return const Center(
@@ -257,7 +251,6 @@ class _HomePagesState extends State<HomePages> {
                                   ),
                                   const SizedBox(width: 12),
 
-                                  // Icon
                                   Container(
                                     width: 44, height: 44,
                                     decoration: BoxDecoration(
@@ -268,7 +261,6 @@ class _HomePagesState extends State<HomePages> {
                                   ),
                                   const SizedBox(width: 12),
 
-                                  // Info
                                   Expanded(
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -290,7 +282,6 @@ class _HomePagesState extends State<HomePages> {
                                     ),
                                   ),
 
-                                  // Time
                                   Row(
                                     children: [
                                       const Icon(Icons.access_time, size: 14, color: Color(0xFF888780)),
@@ -317,11 +308,10 @@ class _HomePagesState extends State<HomePages> {
               ),
             ),
 
-            // ── FAB ──
             Positioned(
               bottom: 24, right: 0,
               child: FloatingActionButton(
-                onPressed: () {}, // navigasi ke form tambah habit
+                onPressed: () {}, 
                 backgroundColor: const Color(0xFF2C2C2A),
                 shape: const CircleBorder(),
                 child: const Icon(Icons.add, color: Colors.white, size: 28),
