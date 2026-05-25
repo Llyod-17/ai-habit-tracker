@@ -10,6 +10,7 @@ void main() async {
   await GetStorage.init();
 
   final box = GetStorage();
+  await GetStorage.init();
   String? token = box.read('token');
 
   runApp(MyApp(isLoggedIn: token != null));
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Habit Tracker',
 
-      home: isLoggedIn ? const HomePages() : const HomePages(),
+      home: isLoggedIn ? const HomePages() : const LoginPages(),
     );
   }
 }

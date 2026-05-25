@@ -1,7 +1,10 @@
 import 'package:ai_habit_tracker/controller/HabitController.dart';
 import 'package:ai_habit_tracker/view/addHabit.dart';
+import 'package:ai_habit_tracker/view/profilePages.dart';
+import 'package:ai_habit_tracker/controller/AuthController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 
 class HomePages extends StatefulWidget {
@@ -12,16 +15,21 @@ class HomePages extends StatefulWidget {
 }
 
 class _HomePagesState extends State<HomePages> {
+  final box = GetStorage();
   final HabitController habitController = Get.put(HabitController());
   final DateTime today = DateTime.now();
   int selectedDay = DateTime.now().day;
 
   Color _categoryColor(String? category) {
     switch (category) {
-      case 'high': return const Color(0xFFFBEAF0);
-      case 'mid':  return const Color(0xFFFAEEDA);
-      case 'low':  return const Color(0xFFE1F5EE);
-      default:     return const Color(0xFFE6F1FB);
+      case 'high':
+        return const Color(0xFFFBEAF0);
+      case 'mid':
+        return const Color(0xFFFAEEDA);
+      case 'low':
+        return const Color(0xFFE1F5EE);
+      default:
+        return const Color(0xFFE6F1FB);
     }
   }
 
@@ -65,14 +73,31 @@ class _HomePagesState extends State<HomePages> {
                             const SizedBox(height: 2),
                             Text(
                               DateFormat('EEEE, dd MMMM, yyyy').format(today),
-                              style: const TextStyle(fontSize: 13, color: Color(0xFF888780)),
+                              style: const TextStyle(
+                                fontSize: 13,
+                                color: Color(0xFF888780),
+                              ),
                             ),
                           ],
                         ),
-                        const CircleAvatar(
-                          radius: 22,
-                          backgroundColor: Color(0xFFFAC775),
-                          child: Text('🐯', style: TextStyle(fontSize: 22)),
+
+                        GestureDetector(
+                          onTap: () => Get.to(() => const ProfilePage()),
+                          child: CircleAvatar(
+                            radius: 22,
+                            backgroundColor: const Color(0xFFFAC775),
+                            child: Text(
+                              box.read('name') != null
+                                  ? (box.read('name') as String)[0]
+                                        .toUpperCase()
+                                  : '?',
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF1A1A1A),
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -98,9 +123,12 @@ class _HomePagesState extends State<HomePages> {
                               ),
                               const SizedBox(height: 4),
                               Container(
-                                width: 34, height: 34,
+                                width: 34,
+                                height: 34,
                                 decoration: BoxDecoration(
-                                  color: isSelected ? const Color(0xFF2C2C2A) : Colors.transparent,
+                                  color: isSelected
+                                      ? const Color(0xFF2C2C2A)
+                                      : Colors.transparent,
                                   shape: BoxShape.circle,
                                 ),
                                 alignment: Alignment.center,
@@ -109,7 +137,9 @@ class _HomePagesState extends State<HomePages> {
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w700,
-                                    color: isSelected ? Colors.white : const Color(0xFF5F5E5A),
+                                    color: isSelected
+                                        ? Colors.white
+                                        : const Color(0xFF5F5E5A),
                                   ),
                                 ),
                               ),
@@ -144,7 +174,11 @@ class _HomePagesState extends State<HomePages> {
                                 const SizedBox(height: 4),
                                 const Text(
                                   'Never miss your morning routine!\nSet a reminder to stay on track',
-                                  style: TextStyle(fontSize: 12, color: Color(0xFF854F0B), height: 1.4),
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Color(0xFF854F0B),
+                                    height: 1.4,
+                                  ),
                                 ),
                                 const SizedBox(height: 12),
                                 ElevatedButton(
@@ -152,11 +186,20 @@ class _HomePagesState extends State<HomePages> {
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: const Color(0xFF2C2C2A),
                                     foregroundColor: Colors.white,
-                                    padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 18,
+                                      vertical: 8,
+                                    ),
                                     shape: const StadiumBorder(),
                                     elevation: 0,
                                   ),
-                                  child: const Text('Set Now', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 13)),
+                                  child: const Text(
+                                    'Set Now',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 13,
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
@@ -180,10 +223,14 @@ class _HomePagesState extends State<HomePages> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () {}, 
+                          onTap: () {},
                           child: const Text(
                             'See all',
-                            style: TextStyle(fontSize: 13, color: Color(0xFF888780), fontWeight: FontWeight.w600),
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Color(0xFF888780),
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ],
@@ -196,7 +243,9 @@ class _HomePagesState extends State<HomePages> {
                         return const Center(
                           child: Padding(
                             padding: EdgeInsets.all(32),
-                            child: CircularProgressIndicator(color: Color(0xFF2C2C2A)),
+                            child: CircularProgressIndicator(
+                              color: Color(0xFF2C2C2A),
+                            ),
                           ),
                         );
                       }
@@ -208,7 +257,10 @@ class _HomePagesState extends State<HomePages> {
                             child: Text(
                               'Belum ada habit.\nTambah habit baru!',
                               textAlign: TextAlign.center,
-                              style: TextStyle(color: Color(0xFF888780), fontSize: 14),
+                              style: TextStyle(
+                                color: Color(0xFF888780),
+                                fontSize: 14,
+                              ),
                             ),
                           ),
                         );
@@ -218,14 +270,18 @@ class _HomePagesState extends State<HomePages> {
                         children: habitController.habits.map((habit) {
                           final int id = habit['id'];
                           final String name = habit['name'] ?? '';
-                          final int streak = habit['habit_stats']?['streak'] ?? 0;
+                          final int streak =
+                              habit['habit_stats']?['streak'] ?? 0;
                           final String time = habit['preferred_time'] ?? '';
                           final String category = habit['category'] ?? '';
 
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 12),
                             child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 14,
+                              ),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(16),
@@ -235,35 +291,50 @@ class _HomePagesState extends State<HomePages> {
                                   GestureDetector(
                                     onTap: () => habitController.checkHabit(id),
                                     child: Container(
-                                      width: 24, height: 24,
+                                      width: 24,
+                                      height: 24,
                                       decoration: BoxDecoration(
-                                        color: streak > 0 ? const Color(0xFFE05A38) : Colors.transparent,
+                                        color: streak > 0
+                                            ? const Color(0xFFE05A38)
+                                            : Colors.transparent,
                                         shape: BoxShape.circle,
                                         border: Border.all(
-                                          color: streak > 0 ? const Color(0xFFE05A38) : const Color(0xFFD3D1C7),
+                                          color: streak > 0
+                                              ? const Color(0xFFE05A38)
+                                              : const Color(0xFFD3D1C7),
                                           width: 2,
                                         ),
                                       ),
                                       child: streak > 0
-                                          ? const Icon(Icons.check, size: 14, color: Colors.white)
+                                          ? const Icon(
+                                              Icons.check,
+                                              size: 14,
+                                              color: Colors.white,
+                                            )
                                           : null,
                                     ),
                                   ),
                                   const SizedBox(width: 12),
 
                                   Container(
-                                    width: 44, height: 44,
+                                    width: 44,
+                                    height: 44,
                                     decoration: BoxDecoration(
                                       color: _categoryColor(category),
                                       borderRadius: BorderRadius.circular(12),
                                     ),
-                                    child: const Icon(Icons.star_outline, size: 22, color: Color(0xFF5F5E5A)),
+                                    child: const Icon(
+                                      Icons.star_outline,
+                                      size: 22,
+                                      color: Color(0xFF5F5E5A),
+                                    ),
                                   ),
                                   const SizedBox(width: 12),
 
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           name,
@@ -276,7 +347,10 @@ class _HomePagesState extends State<HomePages> {
                                         const SizedBox(height: 2),
                                         Text(
                                           'Streak $streak days',
-                                          style: const TextStyle(fontSize: 12, color: Color(0xFF888780)),
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Color(0xFF888780),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -284,10 +358,16 @@ class _HomePagesState extends State<HomePages> {
 
                                   Row(
                                     children: [
-                                      const Icon(Icons.access_time, size: 14, color: Color(0xFF888780)),
+                                      const Icon(
+                                        Icons.access_time,
+                                        size: 14,
+                                        color: Color(0xFF888780),
+                                      ),
                                       const SizedBox(width: 3),
                                       Text(
-                                        time.length >= 5 ? time.substring(0, 5) : time,
+                                        time.length >= 5
+                                            ? time.substring(0, 5)
+                                            : time,
                                         style: const TextStyle(
                                           fontSize: 12,
                                           color: Color(0xFF888780),
@@ -309,9 +389,12 @@ class _HomePagesState extends State<HomePages> {
             ),
 
             Positioned(
-              bottom: 24, right: 0,
+              bottom: 24,
+              right: 0,
               child: FloatingActionButton(
-                onPressed: () {Get.to(()=> addHabit());}, 
+                onPressed: () {
+                  Get.to(() => addHabit());
+                },
                 backgroundColor: const Color(0xFF2C2C2A),
                 shape: const CircleBorder(),
                 child: const Icon(Icons.add, color: Colors.white, size: 28),

@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 
 class dataInputWidget extends StatelessWidget {
   const dataInputWidget({
-    super.key, required this.hintText, required this.controller, required this.obscureText
+    super.key, required this.hintText, required this.controller, required this.obscureText, required this.keyboardType
   });
 
   final String hintText;
   final TextEditingController controller;
   final bool obscureText;
+  final TextInputType keyboardType;
 
   @override
   Widget build(BuildContext context) {

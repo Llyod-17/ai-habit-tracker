@@ -40,12 +40,12 @@ class AuthController extends GetxController {
       } else {
         isLoading.value = false;
         debugPrint('STATUS: ${response.statusCode}');
-        debugPrint('BODY: ${response.body}'); // ← lihat ini dulu di console
+        debugPrint('BODY: ${response.body}'); 
 
         final json = jsonDecode(response.body);
         Get.snackbar(
           'error',
-          json['message'] ?? 'Registrasi gagal', // ← null-safe
+          json['message'] ?? 'Registrasi gagal', 
           snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.red[400],
           colorText: Colors.white,

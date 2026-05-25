@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:ai_habit_tracker/view/HomePages.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -22,6 +24,7 @@ class HabitController extends GetxController {
     fetchHabits();
   }
 
+  
   Future fetchHabits() async {
     try {
       isLoading.value = true;
@@ -52,6 +55,8 @@ class HabitController extends GetxController {
     }
   }
 
+  
+
   Future checkHabit(int id) async {
     try {
       final response = await http.post(
@@ -74,4 +79,54 @@ class HabitController extends GetxController {
       debugPrint('CHECK HABIT ERROR: $e');
     }
   }
+
+  Future makeHabit({
+    required String name,
+    required String category,
+    required String description,
+    required int targetPerDay,
+    required String preferredTime,
+    required String timeZone,
+    required bool reminderEnabled,
+    required List<String> repeatDays
+
+  }) async {
+    isLoading.value = true;
+    try {
+      var data = {'name': name, 'category': category, 'description': description, 'target_per_day': targetPerDay, 'preferred_time': preferredTime, 'time_zone': timeZone, 'reminder_enabled': reminderEnabled, 'repeat_days': repeatDays};
+      var response = await http.post(
+        Uri.parse('${url}habits'),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${box.read('token')}',
+        },
+        body: jsonEncode(data),
+      );
+      if(response.statusCode == 201) {
+        isLoading.value = false;
+        final json = jsonDecode(response.body);
+        Get.offAll(() => HomePages());
+      } else {
+        isLoading.value = false;
+        debugPrint('STATUS: ${response.statusCode}');
+        debugPrint('BODY: ${response.body}'); 
+
+        final json = jsonDecode(response.body);
+        Get.snackbar(
+          'error',
+          json['message'] ?? 'Pembuatan gagal',
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.red[400],
+          colorText: Colors.white,
+        );
+      }
+    } catch(e) {
+      isLoading.value = false; 
+    debugPrint(e.toString());
+    }
+  }
+
+
+  
 }
