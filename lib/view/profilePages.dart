@@ -1,3 +1,5 @@
+import 'package:ai_habit_tracker/view/editProfile.dart';
+import 'package:ai_habit_tracker/view/performance.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -14,133 +16,119 @@ class ProfilePage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF5F3EE),
-      body: Column(
-        children: [
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
 
-          // ── Header ──
-          Stack(
-            clipBehavior: Clip.none,
-            alignment: Alignment.bottomCenter,
-            children: [
-              // Background gelap
-              Container(
-                height: 220,
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF2C2C2A),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(36),
-                    bottomRight: Radius.circular(36),
+            Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.bottomCenter,
+              children: [
+                Container(
+                  height: 220,
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFF2C2C2A),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(36),
+                      bottomRight: Radius.circular(36),
+                    ),
+                  ),
+                  child: SafeArea(
+                    bottom: false,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () => Get.back(),
+                            child: Container(
+                              width: 38,
+                              height: 38,
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.15),
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(Icons.arrow_back_ios_new_rounded,
+                                  size: 16, color: Colors.white),
+                            ),
+                          ),
+                          const Expanded(
+                            child: Center(
+                              child: Text(
+                                'Profile',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 38),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-                child: SafeArea(
-                  bottom: false,
-                  child: Column(
+
+                Positioned(
+                  bottom: -50,
+                  child: Stack(
                     children: [
-                      // Top bar
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                        child: Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () => Get.back(),
-                              child: Container(
-                                width: 38,
-                                height: 38,
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.15),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: const Icon(Icons.arrow_back_ios_new_rounded,
-                                    size: 16, color: Colors.white),
-                              ),
-                            ),
-                            const Expanded(
-                              child: Center(
-                                child: Text(
-                                  'Profile',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 38),
-                          ],
+                      CircleAvatar(
+                        radius: 50,
+                        backgroundColor: const Color(0xFFFAC775),
+                        child: Text(
+                          initial,
+                          style: const TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF1A1A1A),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 2,
+                        right: 2,
+                        child: Container(
+                          width: 28,
+                          height: 28,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFFE87D2B),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(Icons.edit_rounded,
+                              size: 15, color: Colors.white),
                         ),
                       ),
                     ],
                   ),
                 ),
-              ),
-
-              // Avatar overlap keluar dari header
-              Positioned(
-                bottom: -50,
-                child: Column(
-                  children: [
-                    Stack(
-                      children: [
-                        CircleAvatar(
-                          radius: 50,
-                          backgroundColor: const Color(0xFFFAC775),
-                          child: Text(
-                            initial,
-                            style: const TextStyle(
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF1A1A1A),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 2,
-                          right: 2,
-                          child: Container(
-                            width: 28,
-                            height: 28,
-                            decoration: const BoxDecoration(
-                              color: Color(0xFFE87D2B),
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(Icons.edit_rounded,
-                                size: 15, color: Colors.white),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-
-          // ── Name & email (di bawah header, setelah avatar) ──
-          const SizedBox(height: 62),
-          Text(
-            name,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF1A1A1A),
+              ],
             ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            email,
-            style: const TextStyle(
-              fontSize: 13,
-              color: Color(0xFF9E9E9E),
+
+            const SizedBox(height: 62),
+            Text(
+              name,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF1A1A1A),
+              ),
             ),
-          ),
+            const SizedBox(height: 4),
+            Text(
+              email,
+              style: const TextStyle(
+                fontSize: 13,
+                color: Color(0xFF9E9E9E),
+              ),
+            ),
 
-          const SizedBox(height: 28),
+            const SizedBox(height: 28),
 
-          // ── Menu ──
-          Expanded(
-            child: Padding(
+            Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
@@ -150,14 +138,14 @@ class ProfilePage extends StatelessWidget {
                       icon: Icons.person_outline_rounded,
                       iconColor: const Color(0xFFE87D2B),
                       label: 'Edit Profile',
-                      onTap: () {},
+                      onTap: () {Get.to(()=>Editprofile());},
                     ),
                     _divider(),
                     _menuItem(
                       icon: Icons.bar_chart_rounded,
                       iconColor: const Color(0xFFE87D2B),
                       label: 'Performance',
-                      onTap: () {},
+                      onTap: () {Get.to(()=> Performance());},
                     ),
                     _divider(),
                     _menuItem(
@@ -195,7 +183,6 @@ class ProfilePage extends StatelessWidget {
                                 onPressed: () {
                                   final box = GetStorage();
                                   box.erase();
-                                  // Get.offAll(() => const LoginPages());
                                 },
                                 child: const Text('Keluar',
                                     style: TextStyle(color: Colors.red)),
@@ -207,12 +194,13 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ]),
 
+                  const SizedBox(height: 32),
                 ],
               ),
             ),
-          ),
 
-        ],
+          ],
+        ),
       ),
     );
   }
