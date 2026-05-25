@@ -10,6 +10,8 @@ class Editprofile extends StatefulWidget {
 class _EditprofileState extends State<Editprofile> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: Text("Coming Soon"),
+    );
   }
 }

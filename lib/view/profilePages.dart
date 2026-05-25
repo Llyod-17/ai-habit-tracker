@@ -1,3 +1,4 @@
+import 'package:ai_habit_tracker/controller/AuthController.dart';
 import 'package:ai_habit_tracker/view/editProfile.dart';
 import 'package:ai_habit_tracker/view/performance.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final box = GetStorage();
+    final authController = Get.put(AuthController());
     final String name = box.read('name') ?? 'User';
     final String email = box.read('email') ?? '-';
     final String initial = name[0].toUpperCase();
@@ -145,7 +147,7 @@ class ProfilePage extends StatelessWidget {
                       icon: Icons.bar_chart_rounded,
                       iconColor: const Color(0xFFE87D2B),
                       label: 'Performance',
-                      onTap: () {Get.to(()=> Performance());},
+                      onTap: () {Get.to(()=> PerformancePages());},
                     ),
                     _divider(),
                     _menuItem(
@@ -181,8 +183,7 @@ class ProfilePage extends StatelessWidget {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  final box = GetStorage();
-                                  box.erase();
+                                   authController.logout();
                                 },
                                 child: const Text('Keluar',
                                     style: TextStyle(color: Colors.red)),

@@ -1,5 +1,6 @@
 import 'package:ai_habit_tracker/controller/HabitController.dart';
 import 'package:ai_habit_tracker/view/addHabit.dart';
+import 'package:ai_habit_tracker/view/editHabit.dart';
 import 'package:ai_habit_tracker/view/profilePages.dart';
 import 'package:ai_habit_tracker/controller/AuthController.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,33 @@ class _HomePagesState extends State<HomePages> {
     return List.generate(7, (i) => monday.add(Duration(days: i)));
   }
 
+  void _showAllHabits() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      transitionAnimationController: AnimationController(
+        vsync: Navigator.of(context),
+        duration: const Duration(milliseconds: 400),
+      ),
+      builder: (context) => _AllHabitsSheet(
+        habitController: habitController,
+        categoryColor: _categoryColor,
+      ),
+    );
+  }
+
+  void _showHabitOptions(BuildContext context, dynamic habit) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => _HabitOptionsSheet(
+        habit: habit,
+        habitController: habitController,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final weekDays = _getWeekDays();
@@ -62,9 +90,9 @@ class _HomePagesState extends State<HomePages> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              'Morning, Budi 👋',
-                              style: TextStyle(
+                            Text(
+                              'Morning, ${box.read('name') ?? 'User'} 👋',
+                              style: const TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.w800,
                                 color: Color(0xFF2C2C2A),
@@ -80,7 +108,6 @@ class _HomePagesState extends State<HomePages> {
                             ),
                           ],
                         ),
-
                         GestureDetector(
                           onTap: () => Get.to(() => const ProfilePage()),
                           child: CircleAvatar(
@@ -88,8 +115,7 @@ class _HomePagesState extends State<HomePages> {
                             backgroundColor: const Color(0xFFFAC775),
                             child: Text(
                               box.read('name') != null
-                                  ? (box.read('name') as String)[0]
-                                        .toUpperCase()
+                                  ? (box.read('name') as String)[0].toUpperCase()
                                   : '?',
                               style: const TextStyle(
                                 fontSize: 18,
@@ -181,26 +207,26 @@ class _HomePagesState extends State<HomePages> {
                                   ),
                                 ),
                                 const SizedBox(height: 12),
-                                ElevatedButton(
-                                  onPressed: () {},
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF2C2C2A),
-                                    foregroundColor: Colors.white,
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 18,
-                                      vertical: 8,
-                                    ),
-                                    shape: const StadiumBorder(),
-                                    elevation: 0,
-                                  ),
-                                  child: const Text(
-                                    'Set Now',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 13,
-                                    ),
-                                  ),
-                                ),
+                                // ElevatedButton(
+                                //   onPressed: () {Get.to(()=>Edithabit());},
+                                //   style: ElevatedButton.styleFrom(
+                                //     backgroundColor: const Color(0xFF2C2C2A),
+                                //     foregroundColor: Colors.white,
+                                //     padding: const EdgeInsets.symmetric(
+                                //       horizontal: 18,
+                                //       vertical: 8,
+                                //     ),
+                                //     shape: const StadiumBorder(),
+                                //     elevation: 0,
+                                //   ),
+                                //   child: const Text(
+                                //     'Set Now',
+                                //     style: TextStyle(
+                                //       fontWeight: FontWeight.w700,
+                                //       fontSize: 13,
+                                //     ),
+                                //   ),
+                                // ),
                               ],
                             ),
                           ),
@@ -223,7 +249,7 @@ class _HomePagesState extends State<HomePages> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () {},
+                          onTap: _showAllHabits,
                           child: const Text(
                             'See all',
                             style: TextStyle(
@@ -270,113 +296,109 @@ class _HomePagesState extends State<HomePages> {
                         children: habitController.habits.map((habit) {
                           final int id = habit['id'];
                           final String name = habit['name'] ?? '';
-                          final int streak =
-                              habit['habit_stats']?['streak'] ?? 0;
+                          final int streak = habit['habit_stats']?['streak'] ?? 0;
                           final String time = habit['preferred_time'] ?? '';
                           final String category = habit['category'] ?? '';
 
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 12),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 14,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Row(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () => habitController.checkHabit(id),
-                                    child: Container(
-                                      width: 24,
-                                      height: 24,
-                                      decoration: BoxDecoration(
-                                        color: streak > 0
-                                            ? const Color(0xFFE05A38)
-                                            : Colors.transparent,
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
+                            child: GestureDetector(
+                              onLongPress: () => _showHabitOptions(context, habit),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 14,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () => habitController.checkHabit(id),
+                                      child: Container(
+                                        width: 24,
+                                        height: 24,
+                                        decoration: BoxDecoration(
                                           color: streak > 0
                                               ? const Color(0xFFE05A38)
-                                              : const Color(0xFFD3D1C7),
-                                          width: 2,
-                                        ),
-                                      ),
-                                      child: streak > 0
-                                          ? const Icon(
-                                              Icons.check,
-                                              size: 14,
-                                              color: Colors.white,
-                                            )
-                                          : null,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 12),
-
-                                  Container(
-                                    width: 44,
-                                    height: 44,
-                                    decoration: BoxDecoration(
-                                      color: _categoryColor(category),
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    child: const Icon(
-                                      Icons.star_outline,
-                                      size: 22,
-                                      color: Color(0xFF5F5E5A),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 12),
-
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          name,
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w700,
-                                            color: Color(0xFF2C2C2A),
+                                              : Colors.transparent,
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: streak > 0
+                                                ? const Color(0xFFE05A38)
+                                                : const Color(0xFFD3D1C7),
+                                            width: 2,
                                           ),
                                         ),
-                                        const SizedBox(height: 2),
+                                        child: streak > 0
+                                            ? const Icon(
+                                                Icons.check,
+                                                size: 14,
+                                                color: Colors.white,
+                                              )
+                                            : null,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 12),
+                                    Container(
+                                      width: 44,
+                                      height: 44,
+                                      decoration: BoxDecoration(
+                                        color: _categoryColor(category),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      child: const Icon(
+                                        Icons.star_outline,
+                                        size: 22,
+                                        color: Color(0xFF5F5E5A),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 12),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            name,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w700,
+                                              color: Color(0xFF2C2C2A),
+                                            ),
+                                          ),
+                                          const SizedBox(height: 2),
+                                          Text(
+                                            'Streak $streak days',
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Color(0xFF888780),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.access_time,
+                                          size: 14,
+                                          color: Color(0xFF888780),
+                                        ),
+                                        const SizedBox(width: 3),
                                         Text(
-                                          'Streak $streak days',
+                                          time.length >= 5 ? time.substring(0, 5) : time,
                                           style: const TextStyle(
                                             fontSize: 12,
                                             color: Color(0xFF888780),
+                                            fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ],
                                     ),
-                                  ),
-
-                                  Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.access_time,
-                                        size: 14,
-                                        color: Color(0xFF888780),
-                                      ),
-                                      const SizedBox(width: 3),
-                                      Text(
-                                        time.length >= 5
-                                            ? time.substring(0, 5)
-                                            : time,
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                          color: Color(0xFF888780),
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           );
@@ -392,12 +414,380 @@ class _HomePagesState extends State<HomePages> {
               bottom: 24,
               right: 0,
               child: FloatingActionButton(
-                onPressed: () {
-                  Get.to(() => addHabit());
-                },
+                onPressed: () => Get.to(() => addHabit()),
                 backgroundColor: const Color(0xFF2C2C2A),
                 shape: const CircleBorder(),
                 child: const Icon(Icons.add, color: Colors.white, size: 28),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ── All Habits Sheet ──
+class _AllHabitsSheet extends StatelessWidget {
+  final HabitController habitController;
+  final Color Function(String?) categoryColor;
+
+  const _AllHabitsSheet({
+    required this.habitController,
+    required this.categoryColor,
+  });
+
+  void _showHabitOptions(BuildContext context, dynamic habit) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => _HabitOptionsSheet(
+        habit: habit,
+        habitController: habitController,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.0, end: 1.0),
+      duration: const Duration(milliseconds: 350),
+      curve: Curves.easeOutCubic,
+      builder: (context, value, child) {
+        return Transform.translate(
+          offset: Offset(0, 40 * (1 - value)),
+          child: Opacity(opacity: value, child: child),
+        );
+      },
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.75,
+        decoration: const BoxDecoration(
+          color: Color(0xFFF5F3EE),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+        ),
+        child: Column(
+          children: [
+            const SizedBox(height: 12),
+            Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: const Color(0xFFD3D1C7),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            const SizedBox(height: 16),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                children: [
+                  Text(
+                    'All Habits',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                      color: Color(0xFF2C2C2A),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            Expanded(
+              child: Obx(() {
+                if (habitController.habits.isEmpty) {
+                  return const Center(
+                    child: Text(
+                      'Belum ada habit.',
+                      style: TextStyle(color: Color(0xFF888780), fontSize: 14),
+                    ),
+                  );
+                }
+                return ListView.builder(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  itemCount: habitController.habits.length,
+                  itemBuilder: (context, index) {
+                    final habit = habitController.habits[index];
+                    final String name = habit['name'] ?? '';
+                    final int streak = habit['habit_stats']?['streak'] ?? 0;
+                    final String time = habit['preferred_time'] ?? '';
+                    final String category = habit['category'] ?? '';
+
+                    return TweenAnimationBuilder<double>(
+                      tween: Tween(begin: 0.0, end: 1.0),
+                      duration: Duration(milliseconds: 300 + (index * 60)),
+                      curve: Curves.easeOutCubic,
+                      builder: (context, value, child) {
+                        return Transform.translate(
+                          offset: Offset(0, 20 * (1 - value)),
+                          child: Opacity(opacity: value, child: child),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: GestureDetector(
+                          onTap: () => _showHabitOptions(context, habit),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 14,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 44,
+                                  height: 44,
+                                  decoration: BoxDecoration(
+                                    color: categoryColor(category),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: const Icon(
+                                    Icons.star_outline,
+                                    size: 22,
+                                    color: Color(0xFF5F5E5A),
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        name,
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFF2C2C2A),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        'Streak $streak days',
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Color(0xFF888780),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.access_time,
+                                      size: 14,
+                                      color: Color(0xFF888780),
+                                    ),
+                                    const SizedBox(width: 3),
+                                    Text(
+                                      time.length >= 5 ? time.substring(0, 5) : time,
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        color: Color(0xFF888780),
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    const Icon(
+                                      Icons.more_vert_rounded,
+                                      size: 18,
+                                      color: Color(0xFF888780),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              }),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ── Habit Options Sheet ──
+class _HabitOptionsSheet extends StatelessWidget {
+  final dynamic habit;
+  final HabitController habitController;
+
+  const _HabitOptionsSheet({
+    required this.habit,
+    required this.habitController,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final String name = habit['name'] ?? '';
+    final int id = habit['id'];
+
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.0, end: 1.0),
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOutCubic,
+      builder: (context, value, child) {
+        return Transform.translate(
+          offset: Offset(0, 30 * (1 - value)),
+          child: Opacity(opacity: value, child: child),
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(20, 16, 20, 32),
+        decoration: const BoxDecoration(
+          color: Color(0xFFF5F3EE),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: const Color(0xFFD3D1C7),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              name,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w800,
+                color: Color(0xFF2C2C2A),
+              ),
+            ),
+            const SizedBox(height: 4),
+            const Text(
+              'Pilih aksi',
+              style: TextStyle(fontSize: 13, color: Color(0xFF888780)),
+            ),
+            const SizedBox(height: 20),
+
+            
+            GestureDetector(
+              onTap: () {
+                Get.back();
+                Get.to(()=> Edithabit());
+              },
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: const Row(
+                  children: [
+                    Icon(Icons.edit_outlined, size: 20, color: Color(0xFF2C2C2A)),
+                    SizedBox(width: 14),
+                    Text(
+                      'Edit Habit',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF2C2C2A),
+                      ),
+                    ),
+                    Spacer(),
+                    Icon(Icons.arrow_forward_ios_rounded,
+                        size: 14, color: Color(0xFF888780)),
+                  ],
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            GestureDetector(
+              onTap: () {
+                Get.back();
+                Get.dialog(
+                  AlertDialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    title: const Text('Hapus Habit',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    content: Text('Hapus "$name"?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Get.back(),
+                        child: const Text('Batal',
+                            style: TextStyle(color: Colors.grey)),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Get.back();
+                          habitController.deleteHabit(id);
+                        },
+                        child: const Text('Hapus',
+                            style: TextStyle(color: Colors.red)),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFBEAF0),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: const Row(
+                  children: [
+                    Icon(Icons.delete_outline_rounded, size: 20, color: Colors.red),
+                    SizedBox(width: 14),
+                    Text(
+                      'Hapus Habit',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.red,
+                      ),
+                    ),
+                    Spacer(),
+                    Icon(Icons.arrow_forward_ios_rounded,
+                        size: 14, color: Colors.red),
+                  ],
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            // Batal
+            GestureDetector(
+              onTap: () => Get.back(),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: const Center(
+                  child: Text(
+                    'Batal',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF888780),
+                    ),
+                  ),
+                ),
               ),
             ),
           ],

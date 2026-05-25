@@ -21,6 +21,7 @@ class InputWidget extends StatelessWidget {
      child:  TextField(
       obscureText: obscureText,
         controller: controller,
+         style: const TextStyle(color: Colors.white),
        decoration: InputDecoration(
          border: InputBorder.none,
          hintText: hintText , hintStyle: TextStyle(color: Colors.white),

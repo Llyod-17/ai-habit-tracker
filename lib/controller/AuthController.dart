@@ -70,15 +70,18 @@ class AuthController extends GetxController {
 
       var response = await http.post(
         Uri.parse('${url}auth/login'),
-        headers: {'Accept': 'application/json'},
-        body: data,
+        headers: {'Accept': 'application/json', 'Content-Type': 'application/json',},
+        body: jsonEncode(data),
       );
 
       if (response.statusCode == 200) {
         isLoading.value = false;
         final json = jsonDecode(response.body);
+        debugPrint('LOGIN RESPONSE: ${response.body}');
         token.value = json['token'];
         box.write('token', token.value);
+        // box.write('name', json['user']['name']);
+        // box.write('name', json['user']['name']);
         Get.offAll(() => HomePages());
       } else {
         isLoading.value = false;
@@ -95,4 +98,6 @@ class AuthController extends GetxController {
       print(e.toString());
     }
   }
+
+
 }
